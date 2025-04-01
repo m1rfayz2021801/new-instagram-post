@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram Post</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+        .post {
+            width: 300px;
+            background: white;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .actions {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 10px;
+        }
+        .actions button {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        .post img {
+            width: 100%;
+            border-radius: 10px;
+        }
+        .username {
+            font-weight: bold;
+            font-size: 18px;
+            margin: 10px 0;
+        }
+        .counter {
+            font-size: 14px;
+            color: gray;
+        }
+        .comment-section {
+            display: none;
+            margin-top: 10px;
+        }
+        .comment-section textarea {
+            width: 90%;
+            height: 50px;
+        }
+    </style>
+</head>
+<body>
+    <div class="post">
+        <div class="actions">
+            <button id="likeButton" onclick="toggleLike()">&#10084;</button> <span id="likeCount" class="counter">0</span>
+            <button onclick="toggleComment()">&#128172;</button> <span id="commentCount" class="counter">0</span>
+            <button onclick="sharePost()">&#128257;</button> <span id="shareCount" class="counter">0</span>
+        </div>
+        <img src="https://i.imgur.com/qNEwvU6.png" alt="Instagram rasmi">
+        <div class="username">@maning_nikim</div>
+        <div class="comment-section" id="commentSection">
+            <textarea id="commentInput" placeholder="Komment yozing..."></textarea>
+            <button onclick="addComment()">Yuborish</button>
+            <div id="comments"></div>
+        </div>
+    </div>
+
+    <script>
+        let liked = false;
+        let likes = 0;
+        let comments = 0;
+        let shares = 0;
+
+        function toggleLike() {
+            liked = !liked;
+            if (liked) {
+                likes++;
+                document.getElementById("likeButton").style.color = "red";
+            } else {
+                likes--;
+                document.getElementById("likeButton").style.color = "black";
+            }
+            document.getElementById("likeCount").innerText = likes;
+        }
+
+        function toggleComment() {
+            let section = document.getElementById("commentSection");
+            section.style.display = section.style.display === "none" ? "block" : "none";
+        }
+
+        function addComment() {
+            let commentText = document.getElementById("commentInput").value;
+            if (commentText.trim() !== "") {
+                comments++;
+                document.getElementById("commentCount").innerText = comments;
+                let commentDiv = document.createElement("div");
+                commentDiv.innerText = commentText;
+                document.getElementById("comments").appendChild(commentDiv);
+                document.getElementById("commentInput").value = "";
+            }
+        }
+
+        function sharePost() {
+            let shareLink = "https://example.com"; // Bu yerga haqiqiy silkani qo'ying
+            navigator.clipboard.writeText(shareLink).then(() => {
+                alert("Silka nusxalandi! Uni do‘stlaringizga yuborishingiz mumkin.");
+            }).catch(err => {
+                alert("Silkani nusxalashda xatolik yuz berdi.");
+            });
+            shares++;
+            document.getElementById("shareCount").innerText = shares;
+        }
+    </script>
+</body>
+</html>
